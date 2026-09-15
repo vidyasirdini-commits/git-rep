@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "QuickCart Delivery Platform"
+description = "A rapid local delivery platform for customers to browse groceries, place orders, track delivery status, and for partners and admins to manage inventory, fulfillment, zones, and revenue."
+version = "1.0.0"
+id = "artifacts/quickcart"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22694
+
+[services.development]
+run = "pnpm --filter @workspace/quickcart run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/quickcart", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/quickcart/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22694"
+BASE_PATH = "/"
